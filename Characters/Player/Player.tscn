@@ -1,0 +1,237 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Flash Shader.shader" type="Shader" id=1]
+[ext_resource path="res://Characters/Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://Characters/Player/Camera2D.gd" type="Script" id=3]
+[ext_resource path="res://Characters/Player/Slime right.png/1.png" type="Texture" id=4]
+[ext_resource path="res://Characters/Player/Slime left.png/0.png" type="Texture" id=5]
+[ext_resource path="res://Characters/Player/Slime left.png/1.png" type="Texture" id=6]
+[ext_resource path="res://Characters/Player/Slime right.png/0.png" type="Texture" id=7]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "idle right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "walk right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "walk left",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "idle left",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 7, 5 )
+
+[sub_resource type="Animation" id=4]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "idle left" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "idle right" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "walk left" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "walk right" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/flash_modifier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1.0, 0.0, 1.0, 0.0 ]
+}
+
+[node name="Player" type="KinematicBody2D" groups=[
+"player",
+]]
+collision_layer = 2
+script = ExtResource( 2 )
+hearts = 2.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 1 )
+scale = Vector2( 0.25, 0.25 )
+frames = SubResource( 2 )
+animation = "idle left"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 3 )
+shape = SubResource( 3 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( 0, -40 )
+current = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+drag_margin_left = 0.08
+drag_margin_top = 0.25
+drag_margin_right = 0.08
+editor_draw_drag_margin = true
+script = ExtResource( 3 )
+
+[node name="ShiftTween" type="Tween" parent="Camera2D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/idle left" = SubResource( 4 )
+"anims/idle right" = SubResource( 5 )
+"anims/walk left" = SubResource( 6 )
+"anims/walk right" = SubResource( 7 )
+
+[node name="FlashAnimation" type="AnimationPlayer" parent="."]
+anims/flash = SubResource( 8 )
+
+[node name="WallRaycasts" type="Node2D" parent="."]
+
+[node name="RightWallRaycasts" type="Node2D" parent="WallRaycasts"]
+
+[node name="RayCastRight" type="RayCast2D" parent="WallRaycasts/RightWallRaycasts"]
+position = Vector2( 7, 6 )
+scale = Vector2( 0.25, 0.25 )
+enabled = true
+cast_to = Vector2( 10, 0 )
+
+[node name="RayCastRight2" type="RayCast2D" parent="WallRaycasts/RightWallRaycasts"]
+position = Vector2( 7, -1 )
+scale = Vector2( 0.25, 0.25 )
+enabled = true
+cast_to = Vector2( 10, 0 )
+
+[node name="LeftWallRaycasts" type="Node2D" parent="WallRaycasts"]
+
+[node name="RayCastLeft" type="RayCast2D" parent="WallRaycasts/LeftWallRaycasts"]
+position = Vector2( -7, 6 )
+scale = Vector2( 0.25, 0.25 )
+enabled = true
+cast_to = Vector2( -10, 0 )
+
+[node name="RayCastLeft2" type="RayCast2D" parent="WallRaycasts/LeftWallRaycasts"]
+position = Vector2( -7, -1 )
+scale = Vector2( 0.25, 0.25 )
+enabled = true
+cast_to = Vector2( -10, 0 )

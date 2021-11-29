@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Stalactite/Stalactite.png" type="Texture" id=1]
+[ext_resource path="res://Areas/PlayerDetector.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Stalactite/Stalactite.gd" type="Script" id=3]
+[ext_resource path="res://Stalactite/Stalactite explode.png/1.png" type="Texture" id=4]
+[ext_resource path="res://Stalactite/Stalactite explode.png/0.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "explode",
+"speed": 7.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 2.02238
+height = 5.3892
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.32568, 25.6738 )
+
+[node name="Stalactite" type="Area2D"]
+collision_layer = 2147483648
+collision_mask = 3
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.25, 0.25 )
+frames = SubResource( 3 )
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.0883904, -0.0883865 )
+shape = SubResource( 2 )
+
+[node name="PlayerDetector" parent="." instance=ExtResource( 2 )]
+
+[node name="CollisionShape2D" parent="PlayerDetector" index="0"]
+position = Vector2( -0.265167, 19.8891 )
+shape = SubResource( 1 )
+[connection signal="body_entered" from="." to="." method="_on_Stalactite_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_Stalactite_body_exited"]
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]
+
+[editable path="PlayerDetector"]
